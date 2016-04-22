@@ -1,85 +1,92 @@
 \begin{thebibliography}{10}
 
-\bibitem{Net}
-新浪微博.
-\newblock I-am-13.
-\newblock http://weibo.com/StickCui.
-\newblock 2015/5/7.
+\bibitem{Al-Naymat2009}
+Ghazi Al-Naymat, Sanjay Chawla, and Javid Taheri.
+\newblock {SparseDTW: A novel approach to speed up dynamic time warping}.
+\newblock {\em Conferences in Research and Practice in Information Technology
+  Series}, 2009, 101(December 2003): 117--127.
 
-\bibitem{Art}
-作者1, 作者2, 作者3, 等.
-\newblock 文献名[{J}].
-\newblock 期刊名, 2015, 6, 23(9): 1--13.
+\bibitem{Batista2011}
+Gustavo E. a. P.~a. Batista, Xiaoyue Wang, and Eamonn~J Keogh.
+\newblock {A Complexity-Invariant Distance Measure for Time Series}.
+\newblock {\em SIAM International Conference on Data Mining}, 2011, pages
+  699--710.
 
-\bibitem{Boo}
-作者1, 作者2, 作者3, 等.
-\newblock 书名[{M}].
-\newblock 第二版.
-\newblock 出版地: 出版社, 2015, 5.
+\bibitem{Giorgino2009}
+Toni Giorgino.
+\newblock {Computing and Visualizing Dynamic Time Warping Alignments in R: The
+  dtw Package}.
+\newblock {\em Journal Of Statistical Software}, 2009, 31(7): 1--24.
 
-\bibitem{Boo1}
-作者1, 作者2, 作者3, 等.
-\newblock 书名[{M}].
-\newblock 出版地: 出版社, 2015, 5.
+\bibitem{kajan2006application}
+L{\'a}szl{\'o} Kaj{\'a}n, Attila Kert{\'e}sz-Farkas, Dino Franklin, Neli
+  Ivanova, Andr{\'a}s Kocsor, and S{\'a}ndor Pongor.
+\newblock Application of a simple likelihood ratio approximant to protein
+  sequence classification.
+\newblock {\em Bioinformatics}, 2006, 22(23): 2865--2869.
 
-\bibitem{InBoo}
-作者1, 作者2, 作者3, 等.
-\newblock 书名[{M}].
-\newblock 第二版.
-\newblock 出版地: 出版社, 2015, 5: 2--13.
+\bibitem{Keogh2000}
+E.~J Keogh and M.~J Pazzani.
+\newblock {Scaling up dynamic time warping for datamining applications}.
+\newblock {\em Knowledge discovery and data mining}, 2000, In 6th ACM:
+  285--289.
 
-\bibitem{InBoo1}
-作者1, 作者2, 作者3, 等.
-\newblock 书名[{M}].
-\newblock 出版地: 出版社, 2015: 2--13.
+\bibitem{anthropology}
+Eamonn Keogh.
+\newblock Ucr computational anthropology site.
+\newblock \url{http://www.cs.ucr.edu/~eamonn/anthropology/}.
 
-\bibitem{Incol}
-作者1, 作者2, 作者3, 等.
-\newblock 篇名[{A}].
-\newblock 编辑/主编. 论文集名[{C}].
-\newblock 第二版. 出版地: 出版社, 2015: 24--57.
+\bibitem{LESLIE2001}
+CHRISTINA LESLIE, ELEAZAR ESKIN, and WILLIAM~STAFFORD NOBLE.
+\newblock {the Spectrum Kernel: a String Kernel for Svm Protein
+  Classification}.
+\newblock {\em Biocomputing 2002}, 2001, pages 564--575.
 
-\bibitem{MT}
-作者1, 作者2, 作者3, 等.
-\newblock 论文名[{D}].
-\newblock 保存者地址: 保存者（一般是学校）, 2015: 2--13.
+\bibitem{Lin2007}
+Jessica Lin, Eamonn Keogh, Li~Wei, and Stefano Lonardi.
+\newblock {Experiencing SAX: A novel symbolic representation of time series}.
+\newblock {\em Data Mining and Knowledge Discovery}, 2007, 15(2): 107--144.
 
-\bibitem{Phd}
-作者1, 作者2, 作者3, 等.
-\newblock 论文名[{D}].
-\newblock 保存者地址: 保存者（一般是学校）, 2015: 2--13.
+\bibitem{Salvador2007}
+Stan Salvador and Philip Chan.
+\newblock {FastDTW : Toward Accurate Dynamic Time Warping in Linear Time and
+  Space}.
+\newblock {\em Intelligent Data Analysis}, 2007, 11: 561--580.
 
-\bibitem{TechR}
-作者1, 作者2, 作者3, 等.
-\newblock 报告名[{R}].
-\newblock 机构地址:~机构, 2015: 3--13.
+\bibitem{Thrun2000}
+Sebastian Thrun, T~O~M Mitchell, and Kamal Nigam.
+\newblock {Text Classification from Labeled and Unlabeled Documents using EM}.
+\newblock 2000, 34: 103--134.
 
-\bibitem{Trans}
-（原作者）作者1, 作者2, 作者3, 等.
-\newblock 译著名[{M}].
-\newblock （译者）作者1, 作者2, 作者3, 等, 译.
-\newblock 出版地: 出版社, 2015, 5: 3--13.
+\bibitem{Wu2008}
+Xindong Wu, Vipin Kumar, Quinlan~J. Ross, Joydeep Ghosh, Qiang Yang, Hiroshi
+  Motoda, Geoffrey~J. McLachlan, Angus Ng, Bing Liu, Philip~S. Yu, Zhi~Hua
+  Zhou, Michael Steinbach, David~J. Hand, and Dan Steinberg.
+\newblock {\em {Top 10 algorithms in data mining}}.
+\newblock volume~14.
+\newblock 2008.
 
-\bibitem{ArtE}
-Author1, Author2, Author3, et~al.
-\newblock Article title.
-\newblock {\em Journal Name}, 2015, 6, 23(9): 1--13.
+\bibitem{Xi2006}
+Xiaopeng Xi, Eamonn Keogh, Christian Shelton, Li~Wei, and Chotirat~Ann
+  Ratanamahatana.
+\newblock {Fast time series classification using numerosity reduction}.
+\newblock {\em Proceedings of the 23rd international conference on Machine
+  learning (ICML)}, 2006, pages 1033----1040.
 
-\bibitem{BooE}
-Author1, Author2, Author3, et~al.
-\newblock {\em Book Name}.
-\newblock Publisher Address: Publisher Name, 2015, 5.
+\bibitem{Xing2010}
+Zhengzheng Xing, Jian Pei, and Eamonn Keogh.
+\newblock {A brief survey on sequence classification}.
+\newblock {\em ACM SIGKDD Explorations Newsletter}, 2010, nov, 12(1): 40.
 
-\bibitem{InBooE}
-Author1, Author2, Author3, et~al.
-\newblock {\em Book Name}.
-\newblock 2 edition.
-\newblock Publisher Address: Publisher Name, 2015, 5: 2--13.
+\bibitem{Shapelets_website}
+L~Ye.
+\newblock The time series shapelets webpage.
+\newblock \url{http://alumni.cs.ucr.edu/~lexiangy/shapelet.html}.
 
-\bibitem{IncolE}
-Author1, Author2, Author3, et~al.
-\newblock Paper title.
-\newblock In Editor Name, editor, {\em Book Title}, pages 24--57. Publisher
-  Name, Address, 2 edition, 2015.
+\bibitem{Ye2009}
+Lexiang Ye and Eamonn Keogh.
+\newblock {Time series shapelets: a new primitive for data mining}.
+\newblock {\em Proceedings of the ACM International Conference on Knowledge
+  Discovery and Data Mining}, 2009, pages 947--956.
 
 \end{thebibliography}

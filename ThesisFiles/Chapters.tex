@@ -1,432 +1,48 @@
-\chapter{引言}
-不用看了，本文内容其实和章名没多大关系，只是没得名起了，迎合《本科生毕业设计（论文）工作手册》要求而已。
+\chapter{绪论}
+\section{序列以及序列分类}
+现实生活中会有各种各样的序列。在语音识别领域，一段语音可以被看作一段序列；在经济领域，股票的走势可以被看作是一段序列；在分子生物学领域，蛋白质、DNA也可以看成是一段序列；在网络管理中，客户端的登录活动也可以被记录成一段序列。而序列分类在现实生活中也有着广泛的应用。以语音库中的不同样本的语音为训练集，通过对需要测试的语音进行分类，可以识别出语音的来源；在医疗领域，通过对心电图序列的分类，可以得到这个疑似患者的患病信息；在信息检索的研究中，利用序列分类可将文件归类；通过蛋白质、DNA序列的分类，有助于科学家探索蛋白质、DNA的新功能\cite{Xing2010}。
 
-\section{文字处理}
+一般说来，序列可以看成是事件的集合，而每一个事件可以由符号或者能比较大小的实数表示。比如一段DNA序列可以表示成$ACCCCCGT$,一段简单的时间序列可以表示成$\left\langle {0.2{\rm{,}}0.3{\rm{,}}0.5{\rm{,}}0.9{\rm{,}} \cdots } \right\rangle $，两种序列的不同之处在于实数的大小是可以度量的，而一般而言符号之间的可度量性比较差，本文主要关注的是实数序列。对于符号序列，有一类的处理方法是借鉴实数序列，比如对于蛋白质序列和DNA序列，有一种基于序列对齐的距离度量方法\cite{kajan2006application}。
 
-\subsection{字体设置}
-\textbf{\kaishu {西安电子科技大学}}（Xidian University）简称“\textbf{西电}”或“\textbf{西军电}”，坐落于古都西安。学校是中央部属高校，教育部直属、工信部共建，国家首批“{\heiti 211工程}”，是“{\fangsong 985工程优势学科创新平台}”、“111计划”、“2011计划”重点建设高校{\youyuan （中国电子信息领域、邮电领域唯一的“2011计划”牵头高校）}，35所示范性软件学院的高校之一、集成电路人才培养基地的高校之一，56所获批设立研究生院的重点大学之一，也是{\zihao{-3}\lishu 北京高科大学联盟}的重要成员。 
+对于一般的序列分类任务来说，训练集里面的序列都含有描述其类属性的标签。对于语音识别任务来说，语料库里的语音其标签是其发出者；对于文档归类任务来说，文档的标签即是其所属类别。定义$L$为标签集，$S$为待分类序列集，序列分类的任务就是通过对含有标签信息的训练集$T$的训练，得到一个可将$S$映射到$L$的分类器$C$。可以表示成$C:s \to l,s \in S,l \in L$。对于传统的分类任务来说，常用的分类器主要有$k$NN，决策树、支持向量机\cite{Wu2008}。
 
-1931年1月28日，红一方面军{\yahei 总司令朱德、总政委毛泽东}于小布总部签发“调学生学无线电的命令”，随后，第一期无线电训练班在\CJKunderline{小布镇陈家土楼}正式开课。后迁移至\CJKunderdblline{瑞金}，成立\CJKunderwave{中央军委无线电学校}，是毛泽东等老一辈革命家亲手创建的第一所工程技术学校。1958年学校迁址西安，1966年转为地方建制，1988年定为西安电子科技大学。该校是中国最早建立\CJKunderdot{信息论、信息系统工程、雷达、微波天线、电子机械、电子对抗}等专业的高校之一，开辟了中国IT学科的先河，形成了鲜明的电子与信息学科特色与优势。毛泽东曾先后两次为该校题词：“\textbf{\large 全心全意为人民服务}”、“\textbf{\large 艰苦朴素}”。\footnote{从百度百科粘下来的，就不放进参考文献了。}
+\section{序列分类的主要方法}
+对于序列分类问题，因为其灵活性，很多的学者从不同的角度提出了大量的方法\cite{Al-Naymat2009}\cite{Keogh2000}\cite{Salvador2007}
+\cite{Thrun2000}\cite{Xi2006}\cite{Ye2009}。本文主要介绍其中两种比较典型的方法，一种是基于序列距离度量的Dynamic Time Warping(DTW)方法\cite{Al-Naymat2009}\cite{Batista2011}\cite{Keogh2000}\cite{LESLIE2001}\cite{Lin2007}\cite{Salvador2007}
+\cite{Xi2006}，另一种是基于特征选择的shapelets方法\cite{Ye2009}。其中对DTW方法做重点介绍。
+\subsection{DTW方法}
+对于分类任务而言，一种广泛使用而且特别简单的方法是$k$NN方法，使用$k$NN方法时，关键的是测试数据和训练数据的亲近与否，也就是需要一种距离的度量。对于一般的实数序列，最常用的度量是欧氏距离，对于序列$s$和$s^{'}$，它们的欧式距离是：
+\[dist\left( {s,{s^{'}}} \right) = \sqrt {\sum\limits_{i = 1}^L {{{\left( {s\left[ i \right] - {s^{'}}\left[ i \right]} \right)}^2}} } \]
+同样地，还可以定义其他诸如街区距离，最大值距离。
 
-\CJKsout{来点没用的}
+但是对于序列分类而言，这些距离有很大局限性，主要体现在以下两点：
+\begin{enumerate}
+  \item 以上的距离度量都要求两序列长度相同，而这一点在实际问题中很难得到满足。比如在基因组分析中，很难保证基因序列的长度相同。
+  \item 设想这样一种情况。在步态分析中，同一测试者的步速可能不同，或者在某时间段上存在着加速和减速。那么对于其两段步态序列，比较相似的步态之间可能会有一定的时间差，而上面的这些距离测度只会将同一时刻的步态相比较。也就是说，上面的这些距离测度不能反映出序列比较中的错位。
+\end{enumerate}
 
-\subsection{数字转中文}
- 测试数字：1234.233. 转为中文数字：\zhnumber{1234.233}；转为中文字符串：\zhdigits{1234.233}。
+而DTW方法能够很好地克服上述的两个缺点。
 
-\section{表格}
-
-\subsection{普通表格}
-先来看一个无标题的普通表格：
-
-\begin{tabular}{|c|c|c|}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-
-如果想要居中可以使用 \verb=center= 环境。
-
-带标题表格。
-\begin{table}[ht]
-\centering
-\caption{普通表格1}\label{Tab:table1}
-\begin{tabular}{L{2cm}C{2cm}R{2cm}}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-\end{table}
-
-来一个表格并排，每个表格一个标题：
-\begin{table}[ht]
-\centering
-\begin{minipage}{.45\textwidth}
-\centering
-\caption{并排表格1}\label{Tab:table1-1}
-\begin{tabular}{lcr}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-\end{minipage}
-\begin{minipage}{.45\textwidth}
-\centering
-\caption{并排表格2}\label{Tab:table1-2}
-\begin{tabular}{lcr}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-\end{minipage}
-\end{table}
-
-再来一个表格并排
-\begin{table}[ht]
-\centering
-\caption{并排表格}
-\subcaptionbox{并排表格1}
-{
-\begin{tabular}{lcr}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-}
-\subcaptionbox{并排表格2}
-{
-\begin{tabular}{lcr}
-\hline
-标题 & 标题 & 标题\\
-\hline
-1 & 2 & 3\\
-\hline
-\end{tabular}
-}
-\end{table}
-
-
-\subsection{复杂点的表格}
-表 \ref{Tab:table2} 主要用到的是列合并单元格、跨行合并单元格、混合合并单元格、表格横线的自定义粗细以及控制表格横线的自定义连接等。\footnote{表格虽然难看，主要是为了让大家看效果，里面技巧选用。}
-\begin{table}[ht]
-\centering
-\caption{复杂表格}\label{Tab:table2}
-\begin{tabular}{|c|c|c|c|}
-\toprule[1pt]
-\multicolumn{2}{|c|}{1} & 3 & 4\\
-\midrule[0.5pt]
-5 & 6 & 7 & \multirow{2}*{8}\\
-\cline{1-3}
-9 & 10 & 11 & \\
-\midrule[0.5pt]
-\multicolumn{2}{|c|}{\multirow{2}*{13}} & 15 & 16\\
-\cline{3-4}
-\multicolumn{2}{|c|}{} & 19 & 20\\
-\bottomrule[1pt]
-\end{tabular}
-\end{table}
-
-表格填充颜色，如表 \ref{Tab:table3} 所示。此次，主要用到的出上述介绍外，有单个单元格填充颜色、整列填充颜色、整行填充颜色；此外，还添加了单元格划分的功能。
-
-\begin{table}[ht]
-\centering
-\caption{填色表格}\label{Tab:table3}
-\begin{tabular}{c | c| >{\columncolor{yellow}}c}
-\toprule[1pt]
-\diagbox{No.}{Title} & \textbf{L-Title} & \textbf{R-Title}\\
-\hline
-\rowcolor{red} 1 & One & First\\
-\cellcolor[rgb]{.9,.9,.9} 2 & Two & Second\\
-\cellcolor[rgb]{.2,.9,.9} 3 & Three & Third\\
-\bottomrule[1pt]
-\end{tabular}
-\end{table}
-
-以上，就是普通表格的常用例子了，其他的应用技巧以及功能大家自学吧，毕竟这只是个模板的使用样例，不是\LaTeX{} 教案。
-\subsection{长表格}
-
-呐，在开始长表格之前，我们应该怎么样呢？对，先说点废话。为什么呢？你想啊，既然是长表格，肯定是能够跨页存在的，不说点废话把它顶下去，顶到换页，咋能对得起它的NB功能呢，是吧。
-
-咳咳，严肃点，主角登场了。表 \ref{Tab:longtable} 就是这一小节的主角——长表格了。首先说明一下，这种表格如果放的数据太多的话，就不要在正文里面用了，放到附录里就可以了。
-
-\begin{longtable}[c]{cC{2cm}C{2cm}C{2cm}C{2cm}}
-\caption{这是一个长表格}\label{Tab:longtable}\\
-\hline
-行号 & 标题1 & 标题2 & 标题3 & 标题4\\
-\hline
-\endfirsthead %以上是最前的表头
-\multicolumn{5}{c}{\zihao{5}续表 \thetable: 这是一个长表格}\\
-\hline
-行号 & 标题1 & 标题2 & 标题3 & 标题4\\
-\hline
-\endhead %以上是换页后的表头，如未换页，并不会显示
-\hline
-\multicolumn{5}{r}{接下页续表……}\\
-\endfoot %以上是前页的表尾，如未换页，并不会显示。
-\hline
-\endlastfoot%以上选填最后也的表尾。一般不填
-%下面开始长表格的内容
-1 & 1 & 2 & 3 & 4\\
-2 & 5 & 6 & 7 & 8\\
-3 & 9 & 10 & 11 & 12\\
-4 & 13 & 14 & 15 & 16\\
-5 & 17 & 18 & 19 & 20\\
-6 & 21 & 22 & 23 & 24\\
-7 & 25 & 26 & 27 & 28\\
-8 & 29 & 30 & 31 & 32\\
-9 & 33 & 34 & 35 & 36\\
-10 & 37 & 38 & 39 & 40\\
-11 & 41 & 42 & 43 & 44\\
-12 & 45 & 46 & 47 & 48\\
-13 & 49 & 50 & 51 & 52\\
-14 & 52 & 54 & 55 & 56\\
-15 & 57 & 58 & 59 & 60\\
-16 & 61 & 62 & 63 & 64\\
-17 & 65 & 66 & 67 & 68\\
-18 & 69 & 70 & 71 & 72\\
-19 & 73 & 74 & 75 & 76\\
-20 & 77 & 78 & 79 & 80\\
-21 & 81 & 82 & 83 & 84\\
-22 & 85 & 86 & 87 & 88\\
-23 & 89 & 90 & 91 & 92\\
-24 & 93 & 94 & 95 & 96\\
-25 & 97 & 98 & 99 & 100\\
-\end{longtable}
-
-\section{图片}
-\subsection{普通图片的插入}
-如同表格一样，插图一般都用浮动体来控制，这样排出来的文章美观。\footnote{本文涉及到的所有图片，除我校校徽等标记外，均为个人拍摄。}比如，图 \ref{Fig:xd1} 所示，是一个图片的样例。
-\begin{figure}[ht]
+图\ref{fig：1}是DTW示意图，图中展现了长序列中有一定时间错位的两子序列的对齐情况\cite{Giorgino2009}。
+\begin{figure}
   \centering
-  \includegraphics[width=0.8\linewidth]{./Figure/IMG_XD1.jpg}
-  \caption{西电1}\label{Fig:xd1}
+  \includegraphics[width=0.6\textwidth]{./figure/two_way_plot.png}
+  \caption{DTW示意图}\label{fig：1}
 \end{figure}
 
-\subsection{图片并排插入}
+图中的虚线表示了两序列点的对齐情况，这里对齐的两点指的是用来比较距离的两点，在传统的距离度量中，对齐的两点是索引值相同的两点。而从图中可以看出，对于DTW而言，点的对齐还参考了点邻近曲线的形态，而不仅仅局限于相同的索引，序列上的某点可以和另一个序列中的多个点对齐。因而DTW方法还能够直接处理两序列长度不同的情况。当然，对于两不同长度的时间序列，可以通过插值的方法使得序列等长，从而应用传统的距离度量方法。比如，对于两序列较短的那个，相邻点的之间可插入一定数目的点，插入点的数值可以用这两点的均值代替，以此小技巧，使得短序列扩展到与长序列长度。关于DTW的对齐规则的得到以及其他知识在后文中会详细说明。
 
-先来看第一个，两个图片分别一个标题，如图 \ref{Fig:xd2} 和 图 \ref{Fig:xd3}.
-\begin{figure}[ht]
-\centering
-\begin{minipage}{.45\textwidth}
-\centering
-\includegraphics[width=1\linewidth]{./Figure/IMG_XD2.jpg}
-  \caption{西电2}\label{Fig:xd2}
-\end{minipage}~
-\begin{minipage}{.45\textwidth}
-\centering
-\includegraphics[width=1\linewidth]{./Figure/IMG_XD3.jpg}
-  \caption{西电3}\label{Fig:xd3}
-\end{minipage}
+\subsection{Shapelets方法}
+Shapelets方法最早是由(Ye $et~al$ 2009)提出，作者经过大量实验，验证了该方法的优秀性\cite{Shapelets_website}。
+
+直观来说，序列的Shapelets是该序列中最能够代表该序列的一段，如图\ref{fig:2}所示。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{./figure/shapelets.png}
+  \caption{Shapelets示意图}\label{fig:2}
 \end{figure}
 
-再来看一个统一大标题带子标题的，如图 \ref{Fig:bingpai} 所示。
-\begin{figure}[ht]
-\centering
-\subcaptionbox{西电4}
-{\includegraphics[width=.45\linewidth]{./Figure/IMG_XD4.jpg}}
-\subcaptionbox{西电5}
-{\includegraphics[width=.45\linewidth]{./Figure/IMG_XD5.jpg}}
-\caption{并排插图}\label{Fig:bingpai}
-\end{figure}
+图中的样本是两个徽章，徽章的边缘可以转换成序列。对于这两个徽章而言，徽章的下部的轮廓最能够反映该徽章的特征，因而徽章下部轮廓对应的序列是徽章序列的Shapelets。可以看出，两徽章的下部明显不同，因而可以由下部序列之间的差异，利用分类器，对徽章进行分类。在这里，一般最常用的分类器是$k$NN分类器，它简单而有效，通常取$k=1$\cite{Xi2006}
 
-插图就介绍到这，其他知识自学。
-
-\section{公式}
-\subsection{普通公式}
-先来看一个行内公式：$y=x+1$.
-
-下面是一个居中的公式：
-\[
-f(X)=\sum_{i=1}^{n}\sin{\frac{\pi}{2}x_i}
-\]
-
-看一个编号的公式，如式\eqref{Eq:eq1}：
-\begin{equation}\label{Eq:eq1}
-f(X)=\sum_{i=1}^{n}\sin{\frac{\pi}{2}x_i}
-\end{equation}
-
-\subsection{复杂公式}
-\begin{itemize}
-\item \textbf{多行公式}
-
-\begin{equation}\label{Eq:eq2}
-\begin{aligned}
-f(x) &= \sin(a+b)\\
-&= \sin(a)\cos(b)+\cos(a)\sin(b).
-\end{aligned}
-\end{equation}
-
-\begin{equation}\label{Eq:eq3}
-f(x) = \left\{
-\begin{aligned}
- -&x+1,\quad \text{if}~x<0;\\
- &x+1,\quad \text{if}~x \geq 0;
- \end{aligned}
- \right.
-\end{equation}
-
-\item \textbf{矩阵}
-
-\[
-  A = \left(\begin{array}{ccc}
-        a_{11} & a_{12} & a_{13} \\
-        a_{21} & a_{22} & a_{23} \\
-        a_{31} & a_{32} & a_{33}
-      \end{array}\right),\quad
-  B = \left[\begin{array}{ccc}
-        b_{11} & b_{12} & b_{13} \\
-        b_{21} & b_{22} & b_{23} \\
-        b_{31} & b_{32} & b_{33}
-      \end{array}\right],\quad
-   C = \left[\begin{array}{ccc}
-     c_{11} & c_{12} & c_{13} \\
-     \vdots & \ddots & \vdots \\
-     c_{31} & c_{32} & c_{33}
-   \end{array}\right].
-\]
-行列式也类似
-\[
-A = \left|\begin{array}{ccc}
-    a_{11} & a_{12} & a_{13} \\
-    a_{21} & a_{22} & a_{23} \\
-    a_{31} & a_{32} & a_{33}
-  \end{array}\right|.
-\]
-
-\item \textbf{其他公式}
-
-\[
-\mathbb{L} = \int_{x_1}^{x_2}\sqrt{1+(y')^2}dx 
-= \frac{1}{\alpha}\int_{x_1}^{x_2}y''(x)dx
-\]
-
-\end{itemize}
-
-\section{休息一下}
-
-\subsection{山水之间}
-\begin{center}
-\textbf{山水之间}
-
-{\kaishu 许嵩}
-
-\vspace*{1em}
-昨夜同门云集\quad 推杯又换盏\\
-今朝茶凉酒寒\quad 豪言成笑谈\\
-半生累\quad 尽徒然\\
-碑文完美有谁看\\
-隐居山水之间\quad 誓与浮名散\\
-
-\vspace*{.6em}
-湖畔青石板上\quad 一把油纸伞\\
-旅人停步折花\quad 淋湿了绸缎\\
-满树玉瓣多傲然\\
-江南烟雨却痴缠\\
-花飞雨追\quad 一如尘缘理还乱\\
-
-\vspace*{.6em}
-落花雨\quad 你飘摇的美丽\\
-花香氤\quad 把往日情勾起\\
-我愿意\quad 化浮萍躺湖心\\
-只陪你\quad 泛岁月的涟漪
-\end{center}
-
-\subsection{念奴娇·赤壁怀古}
-
-\begin{center}
-\textbf{念奴娇·赤壁怀古}
-
-{\kaishu 苏轼}
-
-\vspace*{1em}
-大江东去，浪淘尽，千古风流人物。\\
-故垒西边，人道是：三国周郎赤壁。\\
-乱石穿空，惊涛拍岸，卷起千堆雪。\\
-江山如画，一时多少豪杰。\\
-
-\vspace*{.8em}
-遥想公瑾当年，小乔初嫁了，雄姿英发。\\
-羽扇纶巾，谈笑间樯橹灰飞烟灭。\\
-故国神游，多情应笑我，早生华发。\\
-人生如梦，一尊还酹江月。
-
-\end{center}
-
-这一章就写到这里吧，下一章重点介绍两个内容
-
-\chapter{两个重点}
-这一章，会涉及到环境以及参考文献两个重点东西。
-
-\section{环境}
-\subsection{定理类环境}
-
-\begin{proposition}\label{prop:p1}
-这是一个命题。
-\end{proposition}
-
-它还可以这么写，所有定理类环境，都可这么写。
-
-\begin{proposition}[命题名]
-由命题 \ref{prop:p1}, 这也是一个命题。
-\end{proposition}
-
-\begin{assumption}
-距离水平面$100\,m$以内，重力加速度$g$是不变的。
-\end{assumption}
-
-\begin{lemma}[法图引理]
-设$(S,\Sigma,\mu)$为一个测度空间，$(f_n)_{n\geq 0}$是一个实值的可\textbf{正值}函数列。那么：
-\[
-\int_S \liminf_{n\rightarrow \infty} f_n d\mu \leqslant \liminf_{n\rightarrow \infty} \int_S f_n d\mu.
-\]
-其中函数极限是在逐点收敛的意义上的极限，函数取值和积分可以是无限大的。
-\end{lemma}
-
-\begin{theorem}
-若$\lim_{n\rightarrow \infty} x_n = a$，则$\{x_n\}$的任何子列$\{x_{n_k}\}$都收敛于$a$.
-\end{theorem}
-\begin{proof}
-因$\lim_{n\rightarrow \infty} x_n = a$，对任意给定的$\varepsilon > 0$，必定存在正整数$N$，当$n>N$时，有
-\[
-|x_n-a|<\varepsilon.
-\]
-今取$K=N$，则对一切$k>K$，有$n_k>n_K=n_N\geq N$，这时就有
-\[
-|x_{n_k} - a|<\varepsilon.
-\]
-\end{proof}
-
-\subsection{代码环境}
-
-\begin{lstlisting}[language=C]
-#include<stdio.h>
-
-int main()
-{
-	printf("Hello World!");
-	return 0;
-}
-\end{lstlisting}
-
-\begin{lstlisting}[language=C,caption={Java代码},label=Code:java]
-package com.stick.test;
-
-/**
- * 公共主类；
- * 类名必须与文件名相同
- */
-public class Test{
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
-}
-\end{lstlisting}
-
-\begin{lstlisting}[language=R,style = nonumbers]
-x<-c(1,2,3,4,5,6)
-y<-sin(x)
-lines(x,y)
-\end{lstlisting}
-\section{参考文献的引用}
-以下为常用的参考文献。
-
-期刊\cite{Art,ArtE}，专著（无页码）\cite{Boo,BooE,Boo1}，专著（含页码）\cite{InBoo,InBoo1,InBooE}，论文集\cite{Incol,IncolE}。
-
-硕士\cite{MT}/博士论文\cite{Phd}，科技报告\cite{TechR}。
-
-以下参考文献，原有plain风格中并无，为Stick本人自己写的。
-
-网络内容引用\cite{Net}，译著\cite{Trans}
-
-此外，多说一句，本文模板加载的 \verb=natbib= 宏包使得 \verb=\cite= 命令还支持排序等功能。
-
-比如下列文献\cite{ArtE,BooE,InBooE,Trans,Net}
+Shapelets方法有着广泛的应用，比如在植物学中，利用叶柄与叶片的角度，对植物进行分类；在考古学领域，通过对出土器件的特征部位的分类，能得到考古学发现\cite{anthropology}。
