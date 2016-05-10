@@ -47,6 +47,12 @@ Jessica Lin, Eamonn Keogh, Li~Wei, and Stefano Lonardi.
 \newblock {Experiencing SAX: A novel symbolic representation of time series}.
 \newblock {\em Data Mining and Knowledge Discovery}, 2007, 15(2): 107--144.
 
+\bibitem{Ratanamahatana2005}
+Chotirat~Ann Ratanamahatana and Eamonn Keogh.
+\newblock {Three Myths about Dynamic Time Warping Data Mining}.
+\newblock {\em Proceedings of the 2005 SIAM International Conference on Data
+  Mining}, 2005, page~5.
+
 \bibitem{Salvador2007}
 Stan Salvador and Philip Chan.
 \newblock {FastDTW : Toward Accurate Dynamic Time Warping in Linear Time and
@@ -77,6 +83,11 @@ Xiaopeng Xi, Eamonn Keogh, Christian Shelton, Li~Wei, and Chotirat~Ann
 Zhengzheng Xing, Jian Pei, and Eamonn Keogh.
 \newblock {A brief survey on sequence classification}.
 \newblock {\em ACM SIGKDD Explorations Newsletter}, 2010, nov, 12(1): 40.
+
+\bibitem{UCR_data}
+Bing~Hu. Yanping~Chen, Eamonn~Keogh.
+\newblock The ucr time series classification archive.
+\newblock \url{http://www.cs.ucr.edu/~eamonn/time_series_data/}.
 
 \bibitem{Shapelets_website}
 L~Ye.

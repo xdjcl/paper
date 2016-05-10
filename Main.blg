@@ -3,48 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Main.aux
 The style file: XDUbib.bst
 Database file #1: ThesisFiles/RefFile.bib
-Warning--I didn't find a database entry for "shanshui"
 Warning--empty journal in Thrun2000
 Warning--can't use both volume and number fields in Wu2008
-You've used 15 entries,
+You've used 17 entries,
             2657 wiz_defined-function locations,
-            721 strings with 8098 characters,
-and the built_in function-call counts, 5849 in all, are:
-= -- 575
-> -- 307
-< -- 5
-+ -- 122
-- -- 106
-* -- 427
-:= -- 955
-add.period$ -- 46
-call.type$ -- 15
-change.case$ -- 97
+            732 strings with 8445 characters,
+and the built_in function-call counts, 6344 in all, are:
+= -- 621
+> -- 327
+< -- 6
++ -- 131
+- -- 112
+* -- 447
+:= -- 1038
+add.period$ -- 52
+call.type$ -- 17
+change.case$ -- 106
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 195
-empty$ -- 431
-format.name$ -- 106
-if$ -- 1220
+cite$ -- 19
+duplicate$ -- 216
+empty$ -- 476
+format.name$ -- 112
+if$ -- 1329
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 14
-newline$ -- 79
-num.names$ -- 30
-pop$ -- 94
+int.to.str$ -- 17
+missing$ -- 15
+newline$ -- 89
+num.names$ -- 34
+pop$ -- 108
 preamble$ -- 1
-purify$ -- 83
+purify$ -- 90
 quote$ -- 0
-skip$ -- 160
+skip$ -- 178
 stack$ -- 0
-substring$ -- 394
-swap$ -- 54
-text.length$ -- 5
+substring$ -- 407
+swap$ -- 59
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 58
+type$ -- 66
 warning$ -- 2
-while$ -- 57
-width$ -- 17
-write$ -- 162
-(There were 3 warnings)
+while$ -- 62
+width$ -- 19
+write$ -- 182
+(There were 2 warnings)
