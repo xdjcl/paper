@@ -1,17 +1,21 @@
 % 中文摘要
 \begin{abstract}
-  本测试样例，供\XDUthesis{} 模板使用者学习之用，会尽量将模板涉及到的命令、环境；以及一些常用的图表、公式排版技巧进行展示，会对参考文献进行进一步阐述。
-  
-  其余不太重要的部分，会以其他内容进行展示，例如，诗歌、歌词等。
+
+    序列数据在日常生活中特别常见，比如心电图、语音序列等。对序列数据的分类对科学研究有很大的帮助，比如对心电图的分类能得知病人是否患病，语音序列的分类能对语音的来源进行识别。
+
+    不同于一般的数据，序列数据一般有很多元素，而且各个元素之间都有一定的依赖关系，因而使用常见的分类方法，比如支持向量机，并不可行。常用的方法是定义序列之间的距离，根据序列之间的远近，把序列归类到离其最近的那个序列。一般序列之间的距离定义为欧式距离，欧式距离在求解时，只会把相同索引的元素对齐。但是比较序列相近与否时，我们更为看重的是序列形态的相似，而相近形态的序列片段大多不在序列的相同位置。DTW方法就能够有效解决欧式距离的这一缺点。可以定义反映两序列元素距离以及对齐关系的距离矩阵，DTW方法的关键就是找到从距离矩阵左下角游走到右上角的路径，两序列之间的DTW距离通过简单的迭代式就可以得到。此外，本文还具体介绍了一些DTW方法的加速技巧。通过人造数据以及官方数据的实验，可以发现，在大多数的情况下，DTW距离的分类精确度都要优于欧式距离。
+
+    DTW方法考虑的是序列整体，本文还介绍了一种利用序列局部特性进行序列分类的方法——Shapelets。该方法需要找到最能体现序列特性的子序列Shapelets，再根据待分类序列最具特征的局部片段和Shapelets的距离，对待分类序列进行分类。
 
 \end{abstract}
-\keywords{XDUthesis, 命令, 环境, 排版技巧}
+\keywords{序列分类, 序列距离, DTW方法, Shapelets}
 
 % 英文摘要
 \begin{enabstract}
-  This paper is just a sample example for the users in learning the \XDUthesis. I will try my best to use the commands and environments which are involved by the \XDUthesis. Also, the popular composition skills in figures, tables and equations will be elaborated.
-  
-  In the part unimportant, I will show something others, such as poems and lyrics.
+  Sequence data is so common, like ECG, speech sequence. Classifying sequence will be helpful for scientific research, we can know suspicious patient sick or not from ECG and recognize speech by classifying speech sequence.
 
+  Different from general data, there are so many elements in sequences and these elements are not independent, so some usual methods, such as SVM, will not workable. Generally, we need to define distance between two sequences, and classify the sequence to the nearest one. Commonly, the distance is defined as Euclidean distance, which can only align elements with the same index. But when compare two sequences, what we will pay more close attention to is the similarity between sequence shape, and in most cases, the similar shape has different indexes. DTW is a ingenious methods which can overcome this weakness. We can define the distance matrix which can reflect the distance and Alignment relationship, the key process is to find a warp path which wriggles from one corner to the opposite corner, and we can get the DTW distance by a simple iteration. Furthermore, we introduce several methods to accelerate DTW. By some experiment with artificial and official data, we can know, in most cases, DTW method is more accurate than Euclidean distance.
+
+  While DTW considers the whole sequence, there is a method which makes use of local features named Shapelet. By searching the most representative subsequence which is Shapelet, measuring the distance between shapelet and the subsequence of waiting-classify sequence, we can finish classification task.
 \end{enabstract}
-\enkeywords{XDUthesis, commands, environments, skills}
+\enkeywords{sequence classification, distance, DTW method, Shapelets} 

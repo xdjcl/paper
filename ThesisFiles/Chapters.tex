@@ -28,19 +28,19 @@
 
 DTW方法能够很好地克服上述的两个缺点。
 
-图\ref{fig：1}是DTW示意图，图中的两序列是某一长序列的两段，两子序列之间有一定的索引错位，示意图反映了有错位的两序列的对齐情况\cite{Giorgino2009}。
+图\ref{fig：1}是DTW示意图，图中的两序列是某一长序列的两段，两子序列之间的索引有一定错位，示意图反映了有索引错位的两序列之间的对齐情况\cite{Giorgino2009}。
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.6\textwidth]{./figure/two_way_plot.png}
   \caption{DTW示意图}\label{fig：1}
 \end{figure}
 
-图中的虚线表示了两序列点的对齐情况，这里对齐的两点指的是用来比较距离的两点，在传统的距离度量中，对齐的两点是索引值相同的两点。而从图中可以看出，对于DTW而言，点的对齐还参考了点邻近曲线的形态，而不仅仅局限于相同索引点，此外序列上的某点可以和另一个序列中的多个点对齐。因而DTW方法还能够直接处理两序列长度不同的情况。DTW的具体求解将在下文中介绍。
+图中的虚线表示了两序列点的对齐情况，这里对齐的两点是指在距离求解时用来比较距离的两点，在传统的距离度量中，对齐的两点索引值相同。而从图中可以看出，对于DTW方法，点的对齐还参考了点邻近曲线的形态，而不仅仅局限于相同索引点，此外序列上的某点可以和另一个序列中的多个点对齐。因而DTW方法还能够直接处理两序列长度不同的情况。DTW的具体求解将在下文中介绍。
 
 \subsection{Shapelets方法}
 Shapelets方法最早是由(Ye $et~al$ 2009)提出，作者经过大量实验，验证了该方法的优秀性\cite{Shapelets_website}。
 
-简单来说，选择序列中最能代表该序列的那一部分，比较其与Shapelet的相似度，就可对其分类。最具特征子序列如图\ref{fig:2}所示。
+简单来说，Shapelet是一小段序列，选择待分类序列中最能代表该序列的那一部分，比较其与Shapelet的相似度，就可对其分类。最具特征子序列如图\ref{fig:2}所示。
 
 \begin{figure}[t]
   \centering
@@ -77,14 +77,14 @@ DTW方法中很重要的一点就是找到一条从两序列起点，到两序�
   \includegraphics[width=0.5\textwidth]{./figure/three_way_plot.png}
   \caption{warping\ path示意图}\label{fig:5}
 \end{figure}
-示意图的左方和上方表示两个序列$Q$和$C$，序列之间的方格是能够反映序列对齐关系以及两序列对齐点之间距离信息的度量矩阵$M$，$M$的大小为$m \times n$。$M$中的黑色实线是DTW方法中的warping path。warping path记为
+示意图的左方和上方表示两个序列$Q$和$C$，序列之间的方格是能够反映序列对齐关系以及两序列对齐点之间距离信息的度量矩阵$M$，$M$的大小为$m \times n$。$M$中的黑色实线即是DTW方法中的warping path。warping path记为
 \begin{equation}\label{equ:3}
   W = w_1,w_2,\cdots,w_k,\cdots,w_K \quad max(m,n) \leq K \leq m+n-1
 \end{equation}
-$w_k$表示路径上的第$k$个点，$w_k={(i,j)}_k$，表示在路径的第$k$步，$q_i$点和$c_j$点进行了对齐。反映在示意图上就是路径的第$k$步经过了$M$的坐标为$(i,j)$的方格。
-warping\ path主要有以下三条约束：
+$w_k$表示路径上的第$k$个点，$w_k={(i,j)}_k$，表示在路径的第$k$步，$q_i$点和$c_j$点进行了对齐。反映在距离矩阵上就是路径的第$k$步经过了坐标为$(i,j)$的方格。
+warping\ path主要要满足下面三个条件：
 \begin{enumerate}
-  \item \textbf{Boundary conditions:}\ $w_1=(1,1)$以及$w_K=(m,n)$。这条约束的含义是两序列最开始是起点对齐，最后是两序列的终点对齐。
+  \item \textbf{Boundary conditions:}\ $w_1=(1,1)$以及$w_K=(m,n)$。这条约束的含义是两序列最开始是起点对齐，最后是两序列的终点对齐。也就是说，warping\ path是从距离矩阵的左下角蜿蜒到右上角。
   \item \textbf{Continuity:}给定路径的第$k$点$w_k=(a,b)$以及路径的第$k-1$点$w_{k-1}=(a^{'},b^{'})$，那么$a-a^{'} \leq 1$ 以及$b-b^{'} \leq 1$。也就是说，路径游走的下一步点只能是当前点周围的那个点而不能跳跃。
   \item \textbf{Monotonicity:}给定路径的第$k$点$w_k=(a,b)$以及路径的第$k-1$点$w_{k-1}=(a^{'},b^{'})$，那么$a-a^{'} \geq 0$ 以及$b-b^{'} \geq 0$。表示路径只能向前游走。
 \end{enumerate}
@@ -94,8 +94,9 @@ warping\ path主要有以下三条约束：
 \begin{equation}\label{equ:3}
     DTW(W) = \mathop {\min }\limits_W \left\{ {\sum\limits_{k = 1}^K {d\left( {{w_{ki}},{w_{kj}}} \right)} } \right\}
 \end{equation}
-$\left( w_{ki},w_{kj} \right)$表示路径$W$上的第$k$个点，说明第$k$步$q_i$和$c_j$点进行了对齐，${d\left( {{w_{ki}},{w_{kj}}} \right)}$表示$q_i$和$c_j$点的距离。也就是说， 路径上的每点都对应着两序列对齐的点之间的距离，现在DTW的目标就是使路径上所有的这样的距离之和最短。
-求解这个最小化问题很简单，只需要用贪心的方法，使得每一次的迭代得到的距离和最小即可。定义这样的距离和为累计距离$\gamma(i,j)$。直观意义是路径从距离矩阵的起始位置（左下方）蜿蜒到$(i,j)$方格的最小距离。路径蜿蜒到$(i,j)$方格的上一步是$(i-1,j)$,$(i,j-1)$或$(i-1,j-1)$，因而迭代公式为：
+$\left( w_{ki},w_{kj} \right)$表示路径$W$上的第$k$个点，说明第$k$步$q_i$和$c_j$点进行了对齐，${d\left( {{w_{ki}},{w_{kj}}} \right)}$表示$q_i$和$c_j$点的距离。也就是说， 路径上的每点都对应着两序列对齐的点之间的距离，现在DTW的目标就是使路径上所有的这样的距离之和最小。
+
+求解这个最优化问题很简单，只需要用贪心的方法，使得每一次的迭代得到的距离和最小即可。定义这样的距离和为累计距离$\gamma(i,j)$。直观意义是路径从距离矩阵的起始位置（左下方）蜿蜒到$(i,j)$方格的最小距离。路径蜿蜒到$(i,j)$方格的上一步是$(i-1,j)$,\ $(i,j-1)$或$(i-1,j-1)$，因而迭代公式为：
 \begin{equation}\label{equ:4}
   \gamma(i,j)=d(q_i,c_j)+\min \left( {\gamma \left( {i - 1,j} \right),\gamma \left( {i,j - 1} \right),\gamma \left( {i - 1,j - 1} \right)} \right)
 \end{equation}
@@ -131,16 +132,17 @@ $\left( w_{ki},w_{kj} \right)$表示路径$W$上的第$k$个点，说明第$k$�
 
 伪代码中DTW矩阵是累计距离矩阵，每个元素记录了$Q$，$C$两序列中对应元素之前的累计距离，矩阵的最后一个元素即为最终$Q$和$C$的DTW距离。
 
-根据上面的迭代式，最终得到的仅仅是两序列最终的DTW距离，除此之外，还需要得到两序列的DTW对齐情况，也就是DTW路径，为了得到DTW路径，需要利用回溯的方法。如图\ref{fig:6}。
+根据上面的迭代式，最终得到的仅仅是两序列最终的DTW距离，除此之外，在很多情况下，还需要得到两序列的DTW对齐情况，也就是DTW路径，为了得到DTW路径，采用回溯的方法。如图\ref{fig:6}。
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{./figure/trace_back.PNG}
   \caption{回溯法得到DTW路径示意图}\label{fig:6}
 \end{figure}
-回溯从累计距离矩阵的右上角开始，回溯的上一步是该方格左、下、斜下三个元素的最小值所在的方格，这样便能找到当前路径的上一步，通过不断这样地回溯，最终将到达路径的起始点，即得到DTW路径。
+
+回溯从累计距离矩阵的右上角开始，回溯的上一步是当前方格左、下、斜下三个元素的最小值所在的方格，这样便能找到当前路径的上一步，通过不断这样地回溯，最终将到达路径的起始点，即得到DTW路径。
 
 \subsection{带有权重系数的DTW方法}
-对于DTW方法的路径走势，显然，路径总体斜向上游走，而不是呈阶梯形状游走更加合理。所以可以根据当前路径的走势，对路径的不同蜿蜒方向增加一个‘权重’，增加路径斜向上蜿蜒的可能性。此时，\ref{equ:4}中的最优化条件调整为:
+对于DTW方法的路径走势，显然，路径总体斜向上游走，而不是呈阶梯形状游走更加合理。所以可以根据当前路径的走势，对路径的不同蜿蜒方向增加一个‘权重’，以增加路径斜向上蜿蜒的可能性。此时，\ref{equ:4}中的最优化条件调整为:
 \begin{equation}\label{equ:5}
   DTW(W) = \mathop {\min }\limits_W \left\{ {\frac{{\sum\limits_{k = 1}^K {d\left( {{w_{ki}},{w_{kj}}} \right) \cdot {\alpha _k}} }}{{\sum\limits_{k = 1}^K {{\alpha _k}} }}} \right\}
 \end{equation}
@@ -156,10 +158,10 @@ $\alpha_k$表示第$k$步的权重系数，一般$\alpha_k$有以下几种取值
           \item $\alpha = (i_k - i_{k-1})$，这时$C = m$。
           \item $\alpha = (j_k - j_{k-1})$，这时$C = n$。
   \end{itemize}
-  也就是说，在非对称情况下，路径朝上或朝右以及斜向游走，权重系数为2。
+  也就是说，路径朝上或朝右以及斜向游走，权重系数为2。
 \end{enumerate}
 
-对于带有权重系数的DTW方法，迭代公式只需要进行很小地调整。对于对称情形，迭代公式为：
+对于带有权重系数的DTW方法，迭代公式进行很小地调整即可 。对于对称情形，迭代公式为：
 \begin{equation}\label{equ:6}
   \gamma(i,j)=d(q_i,c_j)+\min \left( {\gamma \left( {i - 1,j} \right),\gamma \left( {i,j - 1} \right),\gamma \left( {i - 1,j - 1} \right)}+ d(q_i,c_j) \right)
 \end{equation}
@@ -175,7 +177,7 @@ $\alpha_k$表示第$k$步的权重系数，一般$\alpha_k$有以下几种取值
 在实际的DTW方法的应用中，可以根据实际情况，对路径的每一步赋予特定的权重，而这只需要在迭代公式上做很小的修改。
 
 \section{DTW方法的加速技巧}
-从上文中可以看到DTW方法的时间和空间复杂度都为$O(n^2)$，该节主要关注DTW方法的加速技巧。首先提出两种小技巧，最后引入能够将DTW时间和空间复杂度降低一个数量级的方法——FastDTW\cite{Salvador2007}。
+从上文中可以看到DTW方法的时间和空间复杂度都为$O(n^2)$，该节主要关注DTW方法的加速技巧。首先提出两种加速小技巧，最后引入能够将DTW时间和空间复杂度降低一个数量级的方法——FastDTW\cite{Salvador2007}。
 \subsection{warp window}
 虽然DTW方法能够对两序列中不同索引的元素进行对齐，但是直观上看，将两索引值相差过大的元素对齐在一起显然不合理。反映在距离矩阵上，也就是，路径不能偏离距离矩阵的对角线过大。基于此，可以定义warp window，使得路径蜿蜒在warp window所限定的区域之中。warp window如图\ref{fig:7} 所示。
 \begin{figure}[h]
@@ -183,8 +185,9 @@ $\alpha_k$表示第$k$步的权重系数，一般$\alpha_k$有以下几种取值
   \includegraphics[width=0.4\textwidth]{./figure/warp_window.PNG}
   \caption{warp window示意图}\label{fig:7}
 \end{figure}
-不使用warp window，需要计算整个整个距离矩阵，也就是说，需要填充整个距离矩阵。利用warp window，只需要填充warp window所限定的、对角线周围的方格即可。所以引入warp window，在一定的程度上，降低了计算量。此外，因为引入warp window后，路径的蜿蜒更符合直观实际，因而理论上说，引入warp window能够提高DTW方法的精确度。
-引入warp window后的DTW方法的伪代码如下所示：
+
+在不使用warp window情况下，需要计算整个整个距离矩阵，也就是说，需要填满整个距离矩阵的方格。引入warp window，只需要填充warp window所限定的、对角线周围的方格即可。所以引入warp window，在一定的程度上，能够降低计算量。此外，因为引入warp window后，路径的蜿蜒更符合直观实际，因而理论上说，引入warp window能够提高DTW方法的精确度。
+引入warp window后的DTW方法的伪代码如Algorithm\ref{Alg2} 所示。
 
 \algsetup{linenosize = \tiny,
     linenodelimiter=.}
@@ -211,13 +214,15 @@ $\alpha_k$表示第$k$步的权重系数，一般$\alpha_k$有以下几种取值
 \ENDFOR
 \ENDFOR
 \end{algorithmic}
+\label{Alg2}
 \end{algorithm}
 
-与之前不带有warp window的DTW方法的主要不同在第$11$行中，通过控制$j$的取值范围来控制路径在距离矩阵中的蜿蜒范围。
+引入warp window，与原始DTW方法的主要不同在第$11$行，通过控制$j$的取值范围来控制路径在距离矩阵中的蜿蜒范围。
 
 \subsection{序列的分段平均表示法}
-本节中的加快DTW计算的方法是从减小序列长度的角度出发的，序列的分段平均表示法\cite{Keogh2000} 是一种常用的有效减小序列长度的方法。首先介绍序列的分段平均表示法。
-给定序列$X = x_1 x_2 \cdots x_n$，那么它的分段平均表示下的序列$\bar{X} = \bar{x_1} \bar{x_2} \cdots \bar{x_N}$，这里假定$n$能被$N$整除。其中$\bar{X}$的第$i$个元素是按照下面的计算式得到的：
+本节中的加快DTW计算的方法是从减小序列长度的角度考虑的，序列的分段平均表示法\cite{Keogh2000} 是一种常用的，能够有效减小序列长度的方法。如图\ref{fig:9}所示。
+
+给定序列$X = x_1 x_2 \cdots x_n$，它的分段平均表示下的序列记为$\bar{X} = \bar{x_1} \bar{x_2} \cdots \bar{x_N}$，这里假定$n$能被$N$整除。其中$\bar{X}$的第$i$个元素是按照下面的计算式得到的：
 \begin{equation}\label{equ:8}
   {\overline x _i} = \frac{N}{n}\sum\limits_{j = \frac{n}{N}\left( {i - 1} \right) + 1}^{\frac{n}{N}i} {{x_j}}
 \end{equation}
@@ -238,18 +243,34 @@ $\alpha_k$表示第$k$步的权重系数，一般$\alpha_k$有以下几种取值
     \end{subfigure}
     \caption{序列分段平均处理示意图}\label{fig:9}
 \end{figure}
-也就是说$\bar{X}$序列中的元素是对$X$序列中对应范围的元素求均值得到。经过序列分段平均处理后，再对新的较短的序列应用DTW方法，如图\ref{fig:9}所示。
+也就是说$\bar{X}$序列中的元素是对$X$序列中对应范围的元素求均值得到的。经过序列分段平均处理后，再对新的较短的序列应用DTW方法。
 
-在某些情况下，原始序列中的某些元素是序列中的噪声，经过序列分段平均处理，能从某种程度上消除序列噪声元素的影响，提取出序列特性。从这个角度看，对于某些序列，应用较为合适的序列分段平均处理，能够很大地减小序列长度，从而极大的加快DTW的计算，并且可以增加DTW方法的精度。
+在某些情况下，原始序列中的某些元素是序列中的噪声，经过序列分段平均处理，能从某种程度上消除序列噪声元素的影响，提取出序列特性。从这个角度看，对于某些序列，应用较为合适的序列分段平均处理，能够很大地减小序列长度，从而极大的加快DTW的计算，并且可以增加DTW方法的精度。如图\ref{fig:add}所示，原始序列是长度为$9900000$的时间序列，序列的扰动很大，分段平均处理后的序列长度为$495$，可以看出，分段平均处理能很好地提取出原始序列中的有价值信息。
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{./figure/495.PNG}
+        \caption{原始序列}
+        \label{fig:subfig:original}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{./figure/20000.PNG}
+        \caption{分段平均处理后的新序列}
+        \label{fig:subfig:new}
+    \end{subfigure}
+    \caption{序列分段平均处理能提取序列的信息}\label{fig:add}
+\end{figure}
 
 \subsection{FastDTW方法}
 \subsubsection{FastDTW方法简介}
-上面介绍的两种方法只能从DTW的实际应用经验上加快DTW方法的计算，本节引入一种新的能够从算法的角度有效地把DTW方法的时间以及空间复杂度从$O(n^2)$降低到$O(n)$的方法——FastDTW\cite{Salvador2007}。
-FastDTW的思想是首先降低距离矩阵的分辨率，在较低分辨率下，得到DTW路径，然后对较低分辨率的路径所经过的方格，得到在较高分辨率下路径所能够走的方格的限制。算法主要包括以下三个关键步骤：
+上面介绍的两种方法只能在DTW的实际应用中，经验地加快DTW的计算，本节引入一种新的能够从算法的角度有效地把DTW方法的时间、空间复杂度从$O(n^2)$降低到$O(n)$的方法——FastDTW\cite{Salvador2007}。
+FastDTW的思想是首先降低距离矩阵的分辨率，在较低分辨率下，得到DTW路径，然后投影较低分辨率的路径所经过的方格，得到在较高分辨率下路径所能够走的方格的范围。算法主要包括以下三个关键步骤：
 \begin{enumerate}
-  \item \textbf{粗化}：首先利用上面所提到的序列分段平均表示法，得到较短的序列。假设较短序列长度为原序列长度的$\frac{N}{n}$，那么这些短序列构成的距离矩阵的宽度为原距离矩阵宽度的$\frac{N}{n}$，也就是说，现在得到$\frac{1}{\frac{n}{N}}$分辨率的距离矩阵。
+  \item \textbf{粗化}：首先利用上面所提到的序列分段平均表示法，得到较短的序列。假设较短序列长度为原序列长度的$\frac{N}{n}$（$n \ge N$），那么这些短序列构成的距离矩阵的宽度为原距离矩阵宽度的$\frac{N}{n}$，也就是说，现在得到$\frac{1}{\frac{n}{N}}$分辨率的距离矩阵。
   \item \textbf{投影}：即找到低分辨率下的DTW路径。
-  \item \textbf{细化}：由低分辨率下DTW路径所经过的距离矩阵方格，找到较高分辨率下这些方格的对应方格，便找到高分辨率下DTW路径的约束。
+  \item \textbf{细化}：由低分辨率下DTW路径所经过的距离矩阵所在的方格，找到较高分辨率下这些方格的对应，以得到高分辨率下DTW路径的所能蜿蜒的范围。
 \end{enumerate}
 FastDTW方法的示意图如\ref{fig:10}所示。
 \begin{figure}[h]
@@ -258,44 +279,45 @@ FastDTW方法的示意图如\ref{fig:10}所示。
   \caption{FastDTW示意图}\label{fig:10}
 \end{figure}
 
-以图中的$\frac{1}{2}$分辨率到$\frac{1}{1}$分辨率为例。首先$\frac{1}{2}$低分辨率是$\frac{1}{1}$高分辨率下，通过对原始序列进行分段平均处理后得到的。在$\frac{1}{2}$分辨率下可以得到如图所示的路径，路径周围黑色的方块是该分辨率下路径所走过的区域。在将分辨率调高到$\frac{1}{1}$分辨率后，$\frac{1}{2}$分辨率下得到的黑色方块区域也相应地投影到$\frac{1}{1}$分辨率中，即是$\frac{1}{1}$分辨率中的黑色区域。但是在实际的操作中，为了使得得到的路径更为精确，这是会人为地设定一个参数：半径$r$，它是一个倍率，表示将黑色区域扩大了多少倍。$\frac{1}{1}$分辨率下的黑色区域外围的灰色区域即是加入半径参数后对黑色区域的扩大，在该图所示的情况下，$r=1$，在$\frac{1}{1}$分辨率的距离矩阵中，路径蜿蜒区域被限定在黑色和灰色区域中。
+以图中的$\frac{1}{2}$分辨率到$\frac{1}{1}$分辨率为例。$\frac{1}{2}$低分辨率是$\frac{1}{1}$高分辨率下，通过对原始序列进行分段平均处理后得到的。在$\frac{1}{2}$分辨率下，利用原始DTW方法可以得到如图所示的路径，路径周围黑色的方块是该分辨率下路径所走过的区域。在将分辨率调高到$\frac{1}{1}$分辨率后，$\frac{1}{2}$分辨率下得到的黑色方块区域也相应地投影到$\frac{1}{1}$分辨率对应区域，即$\frac{1}{1}$分辨率中的黑色区域中。但是在实际的操作中，为了使得得到的路径更为精确，这时会人为地设定一个参数：半径$r$，它是一个倍率，表示将黑色区域扩大了多少倍。$\frac{1}{1}$分辨率下的黑色区域外围的灰色区域即是加入半径参数后对黑色区域的扩大所得，在该图所示的情况下，$r=1$，在$\frac{1}{1}$分辨率的距离矩阵中，路径蜿蜒区域被限定在黑色和灰色区域中。
 
-在实际的FastDTW操作中，首先会把分辨率调低到一个合理的水平，然后逐步调高分辨率，每种分辨率下均能得到一条路径，最终将得到$\frac{1}{1}$分辨率下的路径。FastDTW对于每一种分辨率取最优路径，但是最终得到的不一定是和原始DTW方法相同的最优路径，因为从低分辨率路径得到的高分辨率情形下的路径限制方格，只是高分辨率中，路径最有可能经过的方格，真实的最优路径可能会‘突破’这些限制方格，所以FastDTW方法最终所得到的路径可能会和原始DTW路径有所不同。增大半径$r$，会降低路径约束，使得FastDTW路径和原始DTW路径更为接近，但增加半径会使得需要填充的距离矩阵的方格更多，从而增加了计算量。
+在实际的FastDTW操作中，首先会把分辨率调低到一个合理的水平，然后逐步调高分辨率，求出在每种分辨率下的路径，最终将得到$\frac{1}{1}$分辨率下的路径。FastDTW对于每一种分辨率取最优路径，但是最终得到的不一定是和原始DTW方法相同的最优路径，因为从低分辨率路径得到的高分辨率情形下的路径限制方格，只是高分辨率中，路径最有可能经过的方格，真实的最优路径可能会‘突破’这些限制方格，所以FastDTW方法最终所得到的路径可能会和原始DTW路径有所不同。增大半径$r$，会降低路径约束，使得FastDTW路径和原始DTW路径更为接近，但增加半径会使得需要填充的距离矩阵的方格更多，从而增加了计算量。
 
 \subsubsection{FastDTW方法的时间、空间复杂度分析}
-首先计算FastDTW方法总共需要计算距离矩阵的元素，直观上看，也就是需要填充多少距离矩阵的方格。首先，考虑从$\frac{1}{2}$分辨率到$\frac{1}{1}$分辨率需要填充方格数目最多的情况，如图\ref{fig:11}所示：
+首先计算FastDTW方法需要计算距离矩阵的元素的总计数目，直观上看，也就是需要填充多少距离矩阵的方格。首先，考虑从$\frac{1}{2}$分辨率到$\frac{1}{1}$分辨率需要填充方格数目最多的情况，如图\ref{fig:11}所示。
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.4\textwidth]{./figure/evaluation.PNG}
   \caption{最大填充方格示意图}\label{fig:11}
 \end{figure}
 
-$\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，因而在$\frac{1}{1}$分辨率情形下，需要填充的最大方格数目上限为：$3N + 2\cdot (2Nr) = N(4r+3)$。 因为分辨率会有$\frac{1}{1},\frac{1}{2},\frac{1}{2^2},\frac{1}{2^3},\cdots$这些，因而在所有分辨率下总共需要填充的方格数目为：
+$\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，因而在$\frac{1}{1}$分辨率情形下，需要填充的最大方格数目上界为：$3N + 2\cdot (2Nr) = N(4r+3)$。 因为分辨率会有$\frac{1}{1},\frac{1}{2},\frac{1}{2^2},\frac{1}{2^3},\cdots$这些，因而在所有分辨率下总共需要填充的方格数目为：
 \begin{equation}\label{equ:9}
   N\left( {4r + 3} \right) + \frac{N}{2}N\left( {4r + 3} \right) + \frac{N}{{{2^2}}}N\left( {4r + 3} \right) + \frac{N}{{{2^3}}}N\left( {4r + 3} \right) \cdots  = 2N\left( {4r + 3} \right)
 \end{equation}
 
-而时间复杂度由下面三部分组成：
+时间复杂度由下面三部分组成：
 \begin{enumerate}
   \item 需要计算的方格数目。刚刚已经计算得到，是$2N\left( {4r+3}\right)$。
-  \item 计算得到不同的分辨率。对于一段序列（长度为$N$）来说，不同分辨率下需要的时间复杂度之和为：$N + \frac{N}{2} + \frac{N}{2^2} + \frac{N}{2^3} + \cdots = 2N$，因为有两段序列，因而这部分的总时间复杂度为$4N$。
-  \item 回溯得到不同分辨率下的路径。$\frac{1}{1}$分辨率下，路径长度最多为$2N$，也就是说最多需要比较$2N$次。所以所有分辨率下，回溯得到路径的时间复杂度是：$2N + \frac{2N}{2} + \frac{2N}{2^2} + \frac{2N}{2^3} + \cdots = 4N$。
+  \item 计算得到不同的分辨率。对于一段序列（长度为$N$）来说，不同分辨率下需要的时间复杂度之和为：$N + \frac{N}{2} + \frac{N}{2^2} + \frac{N}{2^3} + \cdots = 2N$，因为有两段序列，因而这部分的时间复杂度合计为$4N$。
+  \item 回溯得到不同分辨率下的路径。$\frac{1}{1}$分辨率下，路径长度最多为$2N$，也就是说最多需要回溯比较$2N$次。所以所有分辨率下，回溯以得到路径的时间复杂度是：$2N + \frac{2N}{2} + \frac{2N}{2^2} + \frac{2N}{2^3} + \cdots = 4N$。
 \end{enumerate}
 将这三项加起来，可得FastDTW方法的时间复杂度为：$N(8r+14)$。
+
 可以看到，FastDTW是线性时间复杂度。
 
 再来估计空间复杂度。空间复杂度由下面三部分组成：
 \begin{enumerate}
-  \item 存储不同分辨率下的序列。因为不同分辨率下的序列长度分别为$N,\frac{N}{2},\frac{N}{2^2},\frac{N}{2^3},\cdots$，而有两条序列，因而存储不同分辨率下序列的空间复杂度为$4N$。
+  \item 存储不同分辨率下的序列。因为不同分辨率下的序列长度分别为$N,\frac{N}{2},\frac{N}{2^2},\frac{N}{2^3},\cdots$，而进行距离比较的序列有两条，再考虑到所有分辨率，空间复杂度总计为$4N$。
   \item 存储不同分辨率下的距离矩阵。前面已经估计到，总共需要填充的距离矩阵方格数目为$N(4r+3)$。
   \item 存储路径。前面也已经说明，存储路径的空间复杂度的上限为$4N$。
 \end{enumerate}
-因而FastDTW方法总的空间复杂度为:$N(4r+11)$。同样地，FastDTW方法也为线性空间复杂度。
-当序列的长度比较小，也就是$N$比较小时，$N(8r+14)$以及$N(4r+11)$的复杂度与$N^2$相比并没有优势，$N$很大时，$N(8r+14)$以及$N(4r+11)$将远远小于$N^2$，因而，对于长序列，FastDTW的时间、空间复杂度将远远优于原始DTW方法。
+因而FastDTW方法总的空间复杂度为:$N(4r+11)$。可以看出，同样地，FastDTW方法也为线性空间复杂度。
+当序列的长度比较小，也就是$N$比较小时，$N(8r+14)$以及$N(4r+11)$的复杂度与$N^2$相比并没有优势，$N$很大时，$N(8r+14)$以及$N(4r+11)$将远远小于$N^2$，因而，对于长序列，FastDTW的时间、空间复杂度将远远优于原始DTW方法，当然，这牺牲了一定的精确度。
 
 \section{实验结果}
 \subsection{实验1}
-首先简单地使用人造数据比较欧几里得距离和DTW距离的分类精确度。实验有四类，每一类中训练集、测试集均都有四个序列，序列的长度均为100，相邻类的两序列都有间隔参数$interval$，序列是在相邻类间隔为$interval$的常数序列中增加随机噪声而产生的，现通过1NN的方法对测试集中的序列分类，即将测试集中的序列归类到距离最近的那个序列所属的类，然后和测试集序列的$label$相比较，计算得到分类精确度。最终的分类精确度是上面的数据集分类100次得到的平均精确度。
+首先简单地使用人造数据比较欧几里得距离和DTW距离的分类精确度。实验有四类，每一类中训练集、测试集均都有四个序列，序列的长度均为100，相邻类的两序列都有间隔参数$interval$，序列是在相邻类间隔为$interval$的常数序列中增加随机噪声而产生的，现通过1NN的方法对测试集中的序列分类，即将测试集中的序列归类到距离最近的那个序列，然后和其真实的$label$相比较，计算得到测试集的分类精确度。最终的分类精确度是对上面的数据集分类100次得到的平均精确度。
 
 将间隔参数$interval$从0变化到2，可以得到相应的欧几里得距离和DTW距离的分类精确度曲线，如图\ref{fig:12} 所示。
 \begin{figure}[h]
@@ -356,43 +378,43 @@ $\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，�
 \subsection{实验3}
 上文已经说过，通过定义warp window，不但能够减小计算量，而且能够在某种程度上增大分类精度。现在对于部分UCR数据集以及$interval = 0.875$时的人造数据集，从0到1变化warp window的比例，得到各种比例下的分类精度，得到分类精度曲线，如图\ref{fig:13} 所示。
 \begin{figure}[h] \centering
-    \begin{subfigure}[t]{0.4\linewidth}
+    \begin{subfigure}[h]{0.4\linewidth}
         \includegraphics[width=\linewidth]{./figure/facefour.jpg}
         \caption{facefour数据} \label{fig:subfigure:1}
     \end{subfigure} %
     \quad
-    \begin{subfigure}[t]{0.4\linewidth}
+    \begin{subfigure}[h]{0.4\linewidth}
         \includegraphics[width=\linewidth]{./figure/gun_point.jpg}
         \caption{gun\_point数据} \label{fig:subfigure:2}
     \end{subfigure}
 
-    \begin{subfigure}[t]{0.4\linewidth}
+    \begin{subfigure}[h]{0.4\linewidth}
         \includegraphics[width=\linewidth]{./figure/WordsSunonyms.jpg}
         \caption{WordsSunonyms数据} \label{fig:subfigure:3}
     \end{subfigure}
     \quad
-    \begin{subfigure}[t]{0.4\linewidth}
+    \begin{subfigure}[h]{0.4\linewidth}
         \includegraphics[width=\linewidth]{./figure/accuracy_warp_window.jpg}
         \caption{interval为0.875时的人造数据} \label{fig:subfigure:4}
     \end{subfigure}
     \caption{不同数据集分类精度随warp window变化曲线}
     \label{fig:13}
 \end{figure}
-从分类精度随warp window变化曲线可以看出，较小的warp window（大部分情况下小于10\%）会提升分类精度。事实上，很多文献\cite{UCR_data} \cite{Ratanamahatana2005} 也说明这点。
+从分类精度随warp window变化曲线可以看出，较小的warp window（大部分情况下小于10\%）会提升分类精度。事实上，很多文献\cite{UCR_data} \cite{Ratanamahatana2005} 也说明了这点。
 
 \chapter{Shapelets方法}
 上面介绍的DTW方法是从构造衡量两序列距离的角度分析，而本章通过序列最具特征子序列来完成分类。
 \section{Shapelets简介以及定义}
-在日常的生活中，人们在对一个物体进行分类的时候，会根据这一类物体所具有的共同特征，比如我们想要区分一支笔是铅笔还是钢笔，我们只需根据笔尖的种类即可，笔尖带有圆珠，那么这支笔就是圆珠笔，笔尖中心有缝隙，那么这支笔就是钢笔。也就是说，对笔分类时，我们仅仅需要利用最能代表笔特征的部位——笔头即可。同样地，  对于某些序列数据来说，我们也可以利用这种共同特征来对序列数据分类，这种体现共同特征的，序列集合中的某序列的子序列就是Shapelets\cite{Ye2009}。
+在日常的生活中，人们在对一个物体进行分类的时候，会根据这一类物体所具有的共同特征，比如我们想要区分一支笔是铅笔还是钢笔，我们只需根据笔尖的种类即可，笔尖带有圆珠，那么这支笔就是圆珠笔，笔尖中心有缝隙，那么这支笔就是钢笔。也就是说，对笔分类时，我们仅仅需要利用最能代表笔特征的部位——笔头即可。同样地，  对于某些序列数据来说，我们也可以利用这种共同特征来对序列数据分类，这种体现共同特征的，序列集合中的某序列的子序列就是Shapelets\cite{Ye2009}，通过衡量待分类序列的最具特征子序列和Shapelets的远近，即可对待分类序列进行分类。
 
 一般而言，Shapelets方法有以下三点好处：
 \begin{itemize}
   \item 得到可解释的结果：应用Shapelets方法的时候，结果中将包含一类序列的共同特征，这些共同特征将有助于对分类结果进行解释。
-  \item 对于一些数据而言分类的结果更为精确。Shapelets方法和大多数方法的不同之处在于，Shapelets方法考虑的是序列的局部特征，而其他方法多考虑序列整体，这些方法比较容易受到序列中的无用部分以及序列中的噪声、失真等影响。例如把笔杆也考虑进分类中，那么分类结果必不如只考虑笔尖精确。
-  \item Shapelets方法的时间复杂度比较低。在得到Shapelets的情况下，分类的时间复杂度为$O(ml)$，$m$是待分类序列的长度，$l$是Shapelets的长度。因为Shapelets是序列片段，因而一般情况下，$l$都比较小。
+  \item 对于一些数据而言分类的结果更为精确。Shapelets方法和大多数方法的不同之处在于，Shapelets方法考虑的是序列的局部特征，而其他方法多考虑序列整体，这些方法比较容易受到序列中的无用部分以及噪声、失真等影响。例如把不具区分度的笔杆也考虑进分类中，那么分类结果必不如只考虑笔尖精确。
+  \item Shapelets方法的时间复杂度比较低。在已知Shapelets的情况下，分类的时间复杂度为$O(ml)$，$m$是待分类序列的长度，$l$是Shapelets的长度。因为Shapelets是序列片段，故在一般情况下，$l$都比较小。
 \end{itemize}
 
-一般可以借助信息增益来找到Shapelets，给定顺序序列$T = t_1,t_2,\cdots ,t_m$，下面来逐步地给出Shapelets的定义。
+一般利用信息增益来定义Shapelets，给定顺序序列$T = t_1,t_2,\cdots ,t_m$，下面来逐步地给出Shapelets的定义。
 
 \begin{mydef}
 \emph{子序列.}序列$T$的长度为$l$的子序列$S$是由$T$中$l$个连续元素所组成的，$S = t_p,t_{p+1},\cdots,t_{p+l-1} \quad p+l-1 \leq m$。
@@ -412,15 +434,15 @@ $\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，�
   \caption{子序列和长序列距离示意图}\label{fig:14}
 \end{figure}
 
-之所以把$S$和$T$之间的距离定义成$S$和$T$的子序列之间的距离，是因为Shapelets方法是对序列子序列比较的方法。
+之所以把$S$和$T$之间的距离定义成$S$和$T$的子序列之间的距离，是因为Shapelets是对序列子序列比较的方法。
 
-后文中将要看到，Shapelets会将不同的类给分开，可以通过信息论中的信息增益来衡量这种分开的好坏。
+下文中，本文将利用信息增益来定义、衡量Shapelets方法分类的好坏。
 
 \begin{mydef}
 \emph{熵.}假定序列集合$\bm{D}$由两类$A$,$B$组成，比例分别为$p(A)$和$p(B)$，那么$\bm{D}$的熵的定义是$I(\bm{D}) = -p(A)log(p(A))-p(B)log(p(B))$。
 \end{mydef}
 
-有了熵的定义，那么就能得到Shapelets分类前后的信息增益。
+求得熵后，那么Shapelets分类前后的信息增益即为熵的减少量。
 
 \begin{mydef}
     \emph{信息增益.}特定的划分策略$sp$将数据集$\bm{D}$划分成两个子序列集$\bm{D_1}$、$\bm{D_2}$，那么信息增益定义为：
@@ -433,7 +455,7 @@ $\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，�
     \end{equation}
 \end{mydef}
 
-如图\ref{equ:entropy}所示，序列集$\bm{D}$中有10个序列，包括两类，分别用红色和蓝色表示，每类的序列数目分别为4和6，计算Shapelets候选序列和$\bm{D}$中序列距离，按照大小关系排列在坐标轴上，如图所示的最优分割点的情况下，信息增益为：
+如图\ref{equ:entropy}所示，序列集$\bm{D}$中有10个序列，包括两类，分别用红色和蓝色表示，每类的序列数目分别为4和6，计算Shapelets候选序列和$\bm{D}$中序列距离，按照大小关系排列在坐标轴上，在如图所示的最优分割点的情况下，信息增益为：
 \begin{equation}\label{equ:entropy}
   \left[ { - \frac{6}{{10}}\log \left( {\frac{6}{{10}}} \right) - \frac{4}{{10}}\log \left( {\frac{4}{{10}}} \right)} \right] - \left[ {\frac{5}{{10}}\left[ { - \frac{5}{5}\log \left( {\frac{5}{5}} \right)} \right] + \frac{5}{{10}}\left[ { - \frac{4}{5}\log \left( {\frac{4}{5}} \right) - \frac{1}{5}\log \left( {\frac{1}{5}} \right)} \right]} \right] = 0.482
 \end{equation}
@@ -518,3 +540,10 @@ $\frac{1}{1}$分辨率的图示中，黑色和灰色的区域都需要填充，�
 \end{figure}
 
 在得到序列集的Shapelet后，比较待分类序列和Shapelet之间的距离，根据距离远近，对待分类序列进行分类。
+
+\chapter{总结与展望}
+序列分类中，DTW是一种经典的方法，它能够很好地克服两序列中相似部分的索引值不同的问题，能有效地比较两序列的相似性，其分类精确度也得到广泛地认可。DTW方法最大的一个缺点是其较高的时间、空间复杂度，一些小技巧，比如对原始序列的分段平均处理\cite{Keogh2000}，选择较小的warp window参数等能有效地降低DTW方法的时间、空间复杂度。这些方法还能够提高DTW方法的分类精确度。原始序列的分段平均处理能够有效地提取出原始长序列的有效信息，反映出原始序列的形态，克服原始序列中噪声的干扰。较小的warp window更符合序列分类的实际，也就是序列相似的形态之间不会间隔太大的位置，因而这些方法能够带来分类精确度的提升。[Salvador et.al, 2007]从算法的角度提出了一种能够有效地将DTW的时间、空间复杂度从$O(n^2)$降低到$O(n)$的改进方法——FastDTW，FastDTW最终得到的结果是原始DTW方法结果的较好近似，可以通过调整FastDTW方法的参数，以平衡FastDTW近似结果好坏和时空复杂度。
+
+近些年来，[Ye et.al, 2009]从另外一个角度提出了序列分类的新方法——Shapelet。DTW方法比较的是序列整体的相似性，而Shapelet方法只选择序列中最具代表性的子序列，比较它们之间的相似性。对于一些依赖局部特征进行区分的序列数据，比如树叶边缘序列，Shapelet方法将得到较好的分类结果。
+
+在很多实际场景，比如根据用户登陆情况判别用户异常行为，越早判别出序列标签越好，也就是根据尽可能短的前缀序列进行判别，这是当前序列分类的一个研究方向——早期分类\cite{Xing2010}。 实际得到的序列可能是有标签数据，也可能是无标签数据，半监督序列分类就是研究怎么结合这两类数据进行分类。实际的序列数据可能含有多个标签，对这种序列的分类属于多标签序列分类的研究范畴。
